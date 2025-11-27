@@ -1,109 +1,144 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>時間ソートツール</title>
-  <style>
+<meta charset="UTF-8">
+<title>時間並び替えツール</title>
+<style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: #f3f3f3;
-      margin: 0;
-      padding: 40px;
-      display: flex;
-      justify-content: center;
+        font-family: "Segoe UI", sans-serif;
+        padding: 20px;
+        display: flex;
+        gap: 40px;
     }
 
     .container {
-      background: #ffffff;
-      width: 420px;
-      padding: 25px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    h2 {
-      margin-top: 0;
-      margin-bottom: 25px;
-      text-align: center;
-      font-size: 22px;
-      color: #333;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
 
     .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .label {
+        width: 120px;
     }
 
     input[type="time"] {
-      padding: 6px;
-      width: 130px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
+        width: 140px;
+        padding: 5px;
+        font-size: 14px;
     }
 
     button {
-      background: #4f8cff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: 0.2s;
+        padding: 8px 20px;
+        background: #4A7DFF;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
     }
 
     button:hover {
-      background: #1e6fff;
+        background: #2559e0;
     }
 
-    #btn-area {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 25px;
+    textarea {
+        width: 350px;
+        height: 250px;
+        font-size: 16px;
+        padding: 10px;
+        border: 2px solid #999;
+        border-radius: 6px;
     }
-
-    #result {
-      margin-top: 20px;
-      background: #fafafa;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 15px;
-      min-height: 160px;
-      font-size: 14px;
-      white-space: pre-wrap;
-    }
-  </style>
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>時間ソートツール</h2>
+<div class="container">
 
-    <div class="row">パレト<input type="time" id="t1"></div>
-    <div class="row">ボブキャット<input type="time" id="t2"></div>
-    <div class="row">ナイトクラブ<input type="time" id="t3"></div>
-    <div class="row">軍事<input type="time" id="t4"></div>
-    <div class="row">飛行場<input type="time" id="t5"></div>
-    <div class="row">オイルリグ<input type="time" id="t6"></div>
-    <div class="row">客船<input type="time" id="t7"></div>
-    <div class="row">ヒューメイン<input type="time" id="t8"></div>
-    <div class="row">アーティファクト<input type="time" id="t9"></div>
-    <div class="row">ユニオン<input type="time" id="t10"></div>
-    <div class="row">パシフィック<input type="time" id="t11"></div>
+    <!-- 入力欄 -->
+    <div id="inputs"></div>
 
-    <div id="btn-area">
-      <button onclick="sortTimes()">並び替え</button>
-      <button onclick="copyResult()">コピー</button>
-    </div>
+    <button onclick="sortTimes()">並び替え</button>
+</div>
 
-    <div id="result"></div>
-  </div>
+<div class="container">
+    <button onclick="copyText()">コピー</button>
+    <textarea id="output"></textarea>
+</div>
 
-  <script src="script.js"></script>
+<script>
+const names = [
+    "パレト",
+    "ボブキャット",
+    "ナイトクラブ",
+    "軍事",
+    "飛行場",
+    "オイルリグ",
+    "客船",
+    "ヒューメイン",
+    "アーティファクト",
+    "パシフィック",
+    "ユニオン"   // ←追加
+];
+
+// 入力欄生成（createElement方式で安定）
+const inputArea = document.getElementById("inputs");
+
+names.forEach((name, idx) => {
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = name;
+
+    const input = document.createElement("input");
+    input.type = "time";
+    input.id = "time" + idx;
+
+    row.appendChild(label);
+    row.appendChild(input);
+    inputArea.appendChild(row);
+});
+
+// 並び替え処理
+function sortTimes() {
+    let data = [];
+
+    names.forEach((name, idx) => {
+        const t = document.getElementById("time" + idx).value;
+        let sortTime = t ? parseInt(t.replace(":", "")) : 9999; // HHMM形式の数字
+        data.push({
+            name: name,
+            time: t ? t : "--:--",
+            sortTime: sortTime
+        });
+    });
+
+    data.sort((a, b) => a.sortTime - b.sortTime);
+
+    let result = "";
+    data.forEach(item => {
+        result += `${item.name}　${item.time}\n`;
+    });
+
+    document.getElementById("output").value = result;
+}
+
+// コピー処理（最新ブラウザ対応）
+function copyText() {
+    const text = document.getElementById("output").value;
+    navigator.clipboard.writeText(text)
+        .then(() => alert("コピーしました"))
+        .catch(err => console.error("コピー失敗:", err));
+}
+</script>
+
 </body>
 </html>
