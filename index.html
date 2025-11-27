@@ -1,37 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>時間ソートツール</title>
   <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 30px auto; }
-    input { margin: 5px 0; padding: 6px; width: 160px; }
-    button { margin-top: 15px; padding: 10px 20px; }
-    #result { margin-top: 20px; white-space: pre-wrap; }
-    .row { margin-bottom: 10px; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f3f3f3;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #ffffff;
+      width: 420px;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: 22px;
+      color: #333;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    input[type="time"] {
+      padding: 6px;
+      width: 130px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #4f8cff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1e6fff;
+    }
+
+    #btn-area {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+    }
+
+    #result {
+      margin-top: 20px;
+      background: #fafafa;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      min-height: 160px;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
-  <h2>時間ソート → 定型文生成</h2>
 
-  <div id="inputs">
-    <div class="row">パレト：<input type="time" id="t1"></div>
-    <div class="row">ボブキャット：<input type="time" id="t2"></div>
-    <div class="row">ナイトクラブ：<input type="time" id="t3"></div>
-    <div class="row">軍事：<input type="time" id="t4"></div>
-    <div class="row">飛行場：<input type="time" id="t5"></div>
-    <div class="row">オイルリグ：<input type="time" id="t6"></div>
-    <div class="row">客船：<input type="time" id="t7"></div>
-    <div class="row">ヒューメイン：<input type="time" id="t8"></div>
-    <div class="row">アーティファクト：<input type="time" id="t9"></div>
-    <div class="row">パシフィック：<input type="time" id="t10"></div>
+  <div class="container">
+    <h2>時間ソートツール</h2>
+
+    <div class="row">パレト<input type="time" id="t1"></div>
+    <div class="row">ボブキャット<input type="time" id="t2"></div>
+    <div class="row">ナイトクラブ<input type="time" id="t3"></div>
+    <div class="row">軍事<input type="time" id="t4"></div>
+    <div class="row">飛行場<input type="time" id="t5"></div>
+    <div class="row">オイルリグ<input type="time" id="t6"></div>
+    <div class="row">客船<input type="time" id="t7"></div>
+    <div class="row">ヒューメイン<input type="time" id="t8"></div>
+    <div class="row">アーティファクト<input type="time" id="t9"></div>
+    <div class="row">パシフィック<input type="time" id="t10"></div>
+
+    <div id="btn-area">
+      <button onclick="sortTimes()">並び替え</button>
+      <button onclick="copyResult()">コピー</button>
+    </div>
+
+    <div id="result"></div>
   </div>
-
-  <button onclick="sortTimes()">並び替えて定型文生成</button>
-
-  <h3>結果</h3>
-  <div id="result"></div>
-  <button onclick="copyResult()">コピー</button>
 
   <script src="script.js"></script>
 </body>
